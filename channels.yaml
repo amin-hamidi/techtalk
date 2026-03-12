@@ -1,0 +1,138 @@
+channels:
+  cyber-threats-intel:
+    category: CYBERSECURITY
+    description: Active threats, APTs, malware campaigns, nation-state activity, CVEs
+    cron_time: "07:00"
+    lookback_hours: 24
+    color: 0xE74C3C
+    default_sources:
+      - GossiTheDog
+      - craiu
+      - vxunderground
+      - TheDFIRReport
+      - CISAgov
+      - campuscodi
+      - RobertMLee
+      - cyb3rops
+    tavily_queries:
+      - "cybersecurity threats vulnerabilities CVE zero-day exploitation"
+      - "APT nation-state cyber attack campaign"
+    prompt_overlay: >
+      Prioritize by severity. Lead with actively exploited CVEs and zero-days.
+      Flag nation-state attribution when available. Include affected products/versions
+      when mentioned.
+
+  cyber-breaches:
+    category: CYBERSECURITY
+    description: Major data breaches, ransomware incidents, corporate/gov compromises
+    cron_time: "07:00"
+    lookback_hours: 24
+    color: 0xE67E22
+    default_sources:
+      - troyhunt
+      - briankrebs
+      - BleepinComputer
+      - DailyDarkWeb
+      - FalconFeedsio
+      - BushidoToken
+      - gcluley
+    tavily_queries:
+      - "data breach ransomware attack 2026"
+      - "cybersecurity incident compromised data leak"
+    prompt_overlay: >
+      Lead with the largest/most impactful breaches. Include: who was breached,
+      what data was exposed, how many affected, ransomware group if known,
+      and whether a ransom was paid/demanded.
+
+  cyber-vendor-pulse:
+    category: CYBERSECURITY
+    description: CrowdStrike, SentinelOne, Palo Alto, etc. Product launches, earnings, acquisitions
+    cron_time: "08:00"
+    lookback_hours: 24
+    color: 0x3498DB
+    default_sources:
+      - CrowdStrike
+      - SentinelOne
+      - PaloAltoNtwks
+      - Fortinet
+      - Zscaler
+      - MicrosoftSecurity
+      - George_Kurtz
+      - JohnHultquist
+      - KevinBeaumont
+    tavily_queries:
+      - "cybersecurity company earnings acquisition product launch 2026"
+      - "CrowdStrike SentinelOne Palo Alto Fortinet Zscaler news"
+    prompt_overlay: >
+      Focus on business moves: acquisitions, product launches, earnings highlights,
+      partnerships, and competitive positioning. Note stock-moving news.
+
+  osint-cyber:
+    category: CYBERSECURITY
+    description: OSINT techniques, tools, dark web intel, threat hunting discoveries
+    cron_time: "08:00"
+    lookback_hours: 24
+    color: 0x9B59B6
+    default_sources:
+      - OSINTtechniques
+      - IntelTechniques
+      - AricToler
+      - dutch_osintguy
+      - jms_dot_py
+      - hasherezade
+      - sentdefender
+      - evacide
+    tavily_queries:
+      - "OSINT tools techniques cyber investigation 2026"
+      - "dark web intelligence threat hunting discovery"
+    prompt_overlay: >
+      Highlight new tools, techniques, and tradecraft. Cover dark web discoveries
+      and notable investigations. Flag new OSINT methodologies.
+
+  ai-breakthroughs:
+    category: TECH & AI
+    description: AI/ML research, new models, benchmarks, major announcements
+    cron_time: "09:00"
+    lookback_hours: 24
+    color: 0x2ECC71
+    default_sources:
+      - ylecun
+      - karpathy
+      - DrJimFan
+      - _akhaliq
+      - sama
+      - DarioAmodei
+      - emollick
+      - swyx
+    tavily_queries:
+      - "AI artificial intelligence breakthrough model release 2026"
+      - "OpenAI Anthropic Google DeepMind Meta AI announcement"
+    prompt_overlay: >
+      Lead with the most significant model releases and research papers. Include
+      benchmark results when available. Note competitive implications between labs
+      (OpenAI vs Anthropic vs Google etc).
+
+  tech-innovations:
+    category: TECH & AI
+    description: Semiconductors, quantum, space tech, robotics, major product launches
+    cron_time: "09:00"
+    lookback_hours: 24
+    color: 0x1ABC9C
+    default_sources:
+      - dylan522p
+      - AsianometryYT
+      - SpaceX
+      - thesheetztweetz
+      - MIT_CSAIL
+      - SpaceNews_Inc
+      - IBMQuantum
+      - SemiEngineering
+    tavily_queries:
+      - "semiconductor quantum computing space technology breakthrough 2026"
+      - "robotics innovation product launch technology"
+    prompt_overlay: >
+      Cover breakthroughs across semiconductors, quantum, space, and robotics.
+      Lead with the most commercially or scientifically significant. Include
+      launch dates and milestones.
+
+timezone: America/Chicago
