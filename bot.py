@@ -224,6 +224,24 @@ def build_embed(briefing: str, title: str, color: int = 0x1A1A2E, footer: str = 
     return [embed]
 
 
+# ===================== Share Button =====================
+
+class ShareView(discord.ui.View):
+    """Adds a 'Share to Channel' button on ephemeral digest messages."""
+
+    def __init__(self, embeds: list[discord.Embed]):
+        super().__init__(timeout=300)  # 5 min timeout
+        self._embeds = embeds
+
+    @discord.ui.button(label="Share to Channel", style=discord.ButtonStyle.primary, emoji="\U0001F4E2")
+    async def share_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.channel.send(embeds=self._embeds)
+        button.disabled = True
+        button.label = "Shared"
+        button.style = discord.ButtonStyle.secondary
+        await interaction.response.edit_message(view=self)
+
+
 # ===================== /digest command =====================
 
 @bot.tree.command(name="digest", description="Generate an intelligence digest for this channel")
@@ -260,7 +278,12 @@ async def digest_cmd(interaction: discord.Interaction, hours: int | None = None,
         display_hours = hours if hours else (config.lookback_hours if config else 24)
         title = f"{channel_name} Digest — Last {display_hours}h"
         embeds = build_embed(briefing, title, color=color, footer=footer)
-        await interaction.followup.send(embeds=embeds, ephemeral=not share)
+
+        if share:
+            await interaction.followup.send(embeds=embeds, ephemeral=False)
+        else:
+            view = ShareView(embeds)
+            await interaction.followup.send(embeds=embeds, view=view, ephemeral=True)
     except Exception as e:
         log.error("digest failed for %s: %s", channel_name, e, exc_info=True)
         await interaction.followup.send(f"Something went wrong: {e}", ephemeral=True)
