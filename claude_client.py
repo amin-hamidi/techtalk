@@ -108,11 +108,29 @@ Rules:
 - Do NOT include preamble or sign-offs — jump straight into the briefing"""
 
 
+ANTHROPIC_WEB_SEARCH_TOOL = {
+    "type": "web_search_20250305",
+    "name": "web_search",
+    "max_uses": 5,
+}
+
+
 class ClaudeAnalyzer:
     def __init__(self, api_key: str, tavily: TavilySearch, model: str = "claude-4-sonnet-20250514"):
         self._client = Anthropic(api_key=api_key)
         self._tavily = tavily
         self._model = model
+
+    def _run_with_web_search(self, system: str, user_message: str) -> str:
+        """Run a Claude conversation with Anthropic's native web search tool."""
+        response = self._client.messages.create(
+            model=self._model,
+            max_tokens=4096,
+            system=system,
+            tools=[ANTHROPIC_WEB_SEARCH_TOOL],
+            messages=[{"role": "user", "content": user_message}],
+        )
+        return self._extract_text(response)
 
     def _run_no_tools(self, system: str, user_message: str) -> str:
         response = self._client.messages.create(
